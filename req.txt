@@ -1,0 +1,10 @@
+pyparsing
+progress
+plyfile 
+scipy
+tqdm
+tensorboardx
+numpy
+python-opencv
+matplotlib
+termcolor

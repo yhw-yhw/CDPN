@@ -145,7 +145,7 @@ def update_config_from_file(_config, config_file, check_necessity=True):
     config = copy.deepcopy(_config)
     with open(config_file) as f:
         # exp_config = edict(yaml.load(f, Loader=yaml.FullLoader))
-        exp_config = edict(yaml.load(f))
+        exp_config = edict(yaml.load(f,Loader=yaml.FullLoader))
         for k, v in exp_config.items():
             if k in config:
                 if isinstance(v, dict):
@@ -168,7 +168,7 @@ def update_config_from_file(_config, config_file, check_necessity=True):
 class config():
     def __init__(self):
         self.parser = argparse.ArgumentParser(description='pose experiment')
-        self.parser.add_argument('--cfg', required=True, type=str, help='path/to/configure_file')
+        self.parser.add_argument('--cfg',default='exps_cfg/config_rot.yaml', type=str, help='path/to/configure_file')
         self.parser.add_argument('--load_model', type=str, help='path/to/model, requird when resume/test')
         self.parser.add_argument('--debug', action='store_true', help='')
         self.parser.add_argument('--test', action='store_true', help='')
@@ -210,7 +210,8 @@ class config():
         # complement config regarding paths
         now = datetime.now().isoformat()
         # save path
-        config.pytorch['save_path'] = os.path.join(ref.exp_dir, config.pytorch.exp_id, now)
+        config.pytorch['save_path'] = os.path.join(ref.exp_dir, config.pytorch.exp_id)
+        # config.pytorch['save_path'] = os.path.join(ref.exp_dir, config.pytorch.exp_id, now)
         if not os.path.exists(config.pytorch.save_path):
             os.makedirs(config.pytorch.save_path, exist_ok=True)
         # debug path

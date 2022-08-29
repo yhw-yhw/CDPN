@@ -13,7 +13,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
+
 import numpy as np
 import random
 import time
@@ -39,6 +39,9 @@ from test import test
 from config import config
 from tqdm import tqdm 
 
+import os
+os.chdir(os.path.dirname(__file__))
+
 def main():
     cfg = config().parse()
     network, optimizer = build_model(cfg)
@@ -61,27 +64,28 @@ def main():
         LM(cfg, 'test'),
         batch_size=cfg.train.train_batch_size if 'fast' in cfg.test.test_mode else 1,
         shuffle=False,
-        num_workers=int(cfg.pytorch.threads_num),
+        # num_workers=int(cfg.pytorch.threads_num),
         worker_init_fn=_worker_init_fn()
     )
 
-    obj_vtx = {}
-    logger.info('load 3d object models...')
-    for obj in tqdm(cfg.dataset.classes):
-        obj_vtx[obj] = load_ply_vtx(os.path.join(ref.lm_model_dir, '{}/{}.ply'.format(obj, obj)))
+    # obj_vtx = {}
+    # logger.info('load 3d object models...')
+    # for obj in tqdm(cfg.dataset.classes):
+    #     obj_vtx[obj] = load_ply_vtx(os.path.join(ref.lm_model_dir, '{}/{}.ply'.format(obj, obj)))
+    
     obj_info = LM.load_lm_model_info(ref.lm_model_info_pth)
 
-    if cfg.pytorch.test:
-        _, preds = test(0, cfg, test_loader, network, obj_vtx, obj_info, criterions)
-        if preds is not None:
-            torch.save({'cfg': pprint.pformat(cfg), 'preds': preds}, os.path.join(cfg.pytorch.save_path, 'preds.pth'))
-        return
+    # if cfg.pytorch.test:
+    #     _, preds = test(0, cfg, test_loader, network, obj_vtx, obj_info, criterions)
+    #     if preds is not None:
+    #         torch.save({'cfg': pprint.pformat(cfg), 'preds': preds}, os.path.join(cfg.pytorch.save_path, 'preds.pth'))
+    #     return
 
     train_loader = torch.utils.data.DataLoader(
         LM(cfg, 'train'),
         batch_size=cfg.train.train_batch_size,
         shuffle=True,
-        num_workers=int(cfg.pytorch.threads_num),
+        # num_workers=int(cfg.pytorch.threads_num),
         worker_init_fn=_worker_init_fn()
     )
 
@@ -90,10 +94,14 @@ def main():
         log_dict_train, _ = train(epoch, cfg, train_loader, network, criterions, optimizer)
         for k, v in log_dict_train.items():
             logger.info('{} {:8f} | '.format(k, v))
-        if epoch % cfg.train.test_interval == 0:
-            save_model(os.path.join(cfg.pytorch.save_path, 'model_{}.checkpoint'.format(mark)), network)  # optimizer
-            log_dict_val, preds = test(epoch, cfg, test_loader, network, obj_vtx, obj_info, criterions)
-        logger.info('\n')
+            
+            
+        # if epoch % cfg.train.test_interval == 0:
+        #     save_model(os.path.join(cfg.pytorch.save_path, 'model_{}.checkpoint'.format(mark)), network)  # optimizer
+        #     log_dict_val, preds = test(epoch, cfg, test_loader, network, obj_vtx, obj_info, criterions)
+        
+        
+        # logger.info('\n')
         if epoch in cfg.train.lr_epoch_step:
             if optimizer is not None:
                 for param_group in optimizer.param_groups:

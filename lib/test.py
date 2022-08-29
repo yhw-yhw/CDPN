@@ -71,7 +71,7 @@ def test(epoch, cfg, data_loader, model, obj_vtx, obj_info, criterions):
         os.makedirs(vis_dir)
     for i, (obj, obj_id, inp, pose, c_box, s_box, box, trans_local) in enumerate(data_loader):
         if cfg.pytorch.gpu > -1:
-            inp_var = inp.cuda(cfg.pytorch.gpu, async=True).float()
+            inp_var = inp.cuda(cfg.pytorch.gpu).float()
         else:
             inp_var = inp.float()
 

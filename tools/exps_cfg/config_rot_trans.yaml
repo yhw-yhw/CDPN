@@ -2,7 +2,7 @@ pytorch:
   exp_id: 'CDPN_rot_trans' 
   task: 'rot_trans' # 'rot | trans | rot_trans'
   cfg: ''           # path to configure file
-  gpu: 1
+  gpu: 0
   threads_num: 12
   debug: False
   save_mode: 'all'  # 'all' | 'best', save all models or only save the best model

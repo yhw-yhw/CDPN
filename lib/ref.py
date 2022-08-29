@@ -20,7 +20,8 @@ exp_dir = os.path.join(root_dir, 'exp')
 cache_dir = os.path.join(root_dir, 'dataset_cache')
 
 # background images
-bg_dir = os.path.join(dataset_dir, 'bg_images')
+# bg_dir = os.path.join(dataset_dir, 'bg_images')
+bg_dir=r'D:\deepCV\datasets\VOCdevkit'
 
 # linemod dataset
 lm_dir = os.path.join(dataset_dir, 'lm')
@@ -28,7 +29,8 @@ lm_model_dir = os.path.join(lm_dir, 'models')
 lm_model_info_pth = os.path.join(lm_dir, 'models', 'models_info.txt')
 lm_train_imgn_dir = os.path.join(lm_dir, 'imgn')
 lm_train_real_dir = os.path.join(lm_dir, 'real_train')
-lm_test_dir = os.path.join(lm_dir, 'real_test')
+# lm_test_dir = os.path.join(lm_dir, 'real_test')
+lm_test_dir = os.path.join(lm_dir, 'real_train')
 
 # objects
 lm_obj = ['ape', 'benchvise', 'camera', 'can', 'cat', 'driller', 'duck', 'eggbox', 'glue', 'holepuncher', 'iron', 'lamp', 'phone']
